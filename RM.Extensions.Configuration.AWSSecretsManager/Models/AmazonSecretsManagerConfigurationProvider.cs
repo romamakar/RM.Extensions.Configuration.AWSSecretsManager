@@ -96,7 +96,7 @@ namespace RM.Extensions.Configuration.AWSSecretsManager.Models
         }
 
 
-        private static void Flatten(JsonElement element, string prefix, IDictionary<string, string> data)
+        private static void Flatten(JsonElement element, string prefix, IDictionary<string, string?> data)
         {
             switch (element.ValueKind)
             {

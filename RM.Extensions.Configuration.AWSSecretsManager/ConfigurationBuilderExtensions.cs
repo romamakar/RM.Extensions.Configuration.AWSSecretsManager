@@ -1,14 +1,14 @@
 ﻿using Amazon;
+using Amazon.Runtime;
 using RM.Extensions.Configuration.AWSSecretsManager.Models;
-using Microsoft.Extensions.Configuration;
 
-namespace RM.Extensions.Configuration.AWSSecretsManager
+namespace Microsoft.Extensions.Configuration
 {
     public static class ConfigurationBuilderExtensions
     {
-        public static IConfigurationBuilder AddSecretsManager(this IConfigurationBuilder builder, RegionEndpoint region, Action<SecretsManagerOptions> configurator)
+        public static IConfigurationBuilder AddSecretsManager(this IConfigurationBuilder builder, AWSCredentials? credentials = null, RegionEndpoint? region = null, Action<SecretsManagerOptions>? configurator = null)
         {
-            return builder.Add(new AmazonSecretsManagerConfigurationSource(region, configurator));
+            return builder.Add(new AmazonSecretsManagerConfigurationSource(credentials, region, configurator));
         }
     }
 }
