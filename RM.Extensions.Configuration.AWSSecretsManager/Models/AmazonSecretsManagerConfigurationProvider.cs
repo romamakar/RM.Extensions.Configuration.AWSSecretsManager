@@ -115,7 +115,6 @@ namespace RM.Extensions.Configuration.AWSSecretsManager.Models
                         Flatten(item, $"{prefix}:{i}", data);
                         i++;
                     }
-                    data[prefix] = element.GetString()!;
                     break;
 
                 case JsonValueKind.String:
