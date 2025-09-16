@@ -24,7 +24,30 @@ namespace RM.Extensions.Configuration.AWSSecretsManager.Models
             if(_configure != null)
                 _configure(options);
 
-            var client = new AmazonSecretsManagerClient(_credentials, _region);
+            AmazonSecretsManagerClient client;
+            if (_region == null)
+            {
+                if(_credentials == null)
+                {
+                    client = new AmazonSecretsManagerClient();
+                }
+                else
+                {
+                    client = new AmazonSecretsManagerClient(_credentials);
+                }
+
+            }
+            else
+            {
+                if (_credentials == null)
+                {
+                    client = new AmazonSecretsManagerClient(_region);
+                }
+                else
+                {
+                    client = new AmazonSecretsManagerClient(_credentials, _region);
+                }
+            }               
 
             return new AmazonSecretsManagerConfigurationProvider(client, options);
         }
