@@ -7,14 +7,14 @@ Usage:
    ```
    dotnet add package RM.Extensions.Configuration.AWSSecretsManager
    ```
-2. Configure AWS Secrets Manager in your application:
+Configure AWS Secrets Manager in your application:
 
-3. Add this extension method to your configuration builder:
+2. Add this extension method to your configuration builder:
    ```csharp
    var builder = new ConfigurationBuilder().AddSecretsManager();
    var configuration = builder.Build();
    ```
-4. Customize the configuration options as needed:
+3. Customize the configuration options as needed:
    ```csharp
    var builder = new ConfigurationBuilder().AddSecretsManager(options =>
    {
@@ -29,13 +29,13 @@ Usage:
    });
    var configuration = builder.Build();
    ```
-5. You can use credentials from the default AWS SDK credential chain or provide custom credentials:
+4. You can use credentials from the default AWS SDK credential chain or provide custom credentials:
    ```csharp
    var builder = new ConfigurationBuilder().AddSecretsManager(new BasicAWSCredentials("your-access-key", "your-secret-key"), RegionEndpoint.USEast1;);
    var configuration = builder.Build();
    ```
 
-6. Use this extension method on builder.Configuration:
+5. Use this extension method on builder.Configuration:
    ```csharp
         builder.Configuration.AddSecretsManager();
    ```

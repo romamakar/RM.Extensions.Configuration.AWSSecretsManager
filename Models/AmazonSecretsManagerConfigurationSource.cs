@@ -2,16 +2,17 @@
 using Amazon.Runtime;
 using Amazon.SecretsManager;
 using Microsoft.Extensions.Configuration;
+using System;
 
 namespace RM.Extensions.Configuration.AWSSecretsManager.Models
 {
     public class AmazonSecretsManagerConfigurationSource : IConfigurationSource
     {
-        private readonly RegionEndpoint? _region;
-        private readonly AWSCredentials? _credentials;
-        private readonly Action<SecretsManagerOptions>? _configure;
+        private readonly RegionEndpoint _region;
+        private readonly AWSCredentials _credentials;
+        private readonly Action<SecretsManagerOptions> _configure;
 
-        public AmazonSecretsManagerConfigurationSource(AWSCredentials? credentials, RegionEndpoint? region, Action<SecretsManagerOptions>? configure)
+        public AmazonSecretsManagerConfigurationSource(AWSCredentials credentials, RegionEndpoint region, Action<SecretsManagerOptions> configure)
         {
             _region = region;
             _configure = configure;

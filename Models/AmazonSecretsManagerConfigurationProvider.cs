@@ -1,7 +1,11 @@
 ﻿using Amazon.SecretsManager;
 using Amazon.SecretsManager.Model;
 using Microsoft.Extensions.Configuration;
+using System;
+using System.Collections.Generic;
 using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RM.Extensions.Configuration.AWSSecretsManager.Models
 {
@@ -9,7 +13,7 @@ namespace RM.Extensions.Configuration.AWSSecretsManager.Models
     {
         private readonly IAmazonSecretsManager _client;
         private readonly SecretsManagerOptions _options;
-        private Timer? _timer;
+        private Timer _timer;
 
         public AmazonSecretsManagerConfigurationProvider(IAmazonSecretsManager client, SecretsManagerOptions options)
         {
@@ -22,9 +26,12 @@ namespace RM.Extensions.Configuration.AWSSecretsManager.Models
             LoadSecrets();
             if (_options.PollingInterval > TimeSpan.Zero)
             {
-                _timer ??= new Timer(_ => ReloadSecrets(), null,
-                    _options.PollingInterval,
-                    _options.PollingInterval);
+                if (_timer == null)
+                {
+                    _timer = new Timer(_ => ReloadSecrets(), null,
+                     _options.PollingInterval,
+                     _options.PollingInterval);
+                }
             }
         }
 
@@ -43,9 +50,9 @@ namespace RM.Extensions.Configuration.AWSSecretsManager.Models
 
         private void LoadSecrets()
         {
-            var data = new Dictionary<string, string?>(StringComparer.OrdinalIgnoreCase);
+            var data = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
-            string? nextToken = null;
+            string nextToken = null;
             do
             {
                 var request = new ListSecretsRequest
@@ -96,7 +103,7 @@ namespace RM.Extensions.Configuration.AWSSecretsManager.Models
         }
 
 
-        private static void Flatten(JsonElement element, string prefix, IDictionary<string, string?> data)
+        private static void Flatten(JsonElement element, string prefix, IDictionary<string, string> data)
         {
             switch (element.ValueKind)
             {
@@ -118,13 +125,13 @@ namespace RM.Extensions.Configuration.AWSSecretsManager.Models
                     break;
 
                 case JsonValueKind.String:
-                    data[prefix] = element.GetString()!;
+                    data[prefix] = element.GetString();
                     break;
 
                 case JsonValueKind.Number:
                 case JsonValueKind.True:
                 case JsonValueKind.False:
-                    data[prefix] = element.ToString()!;
+                    data[prefix] = element.ToString();
                     break;
 
                 case JsonValueKind.Null:
