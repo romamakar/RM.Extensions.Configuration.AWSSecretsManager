@@ -22,32 +22,21 @@ namespace RM.Extensions.Configuration.AWSSecretsManager.Models
         public IConfigurationProvider Build(IConfigurationBuilder builder)
         {
             var options = new SecretsManagerOptions();
-            if(_configure != null)
-                _configure(options);
+            
+            _configure?.Invoke(options);
 
             AmazonSecretsManagerClient client;
             if (_region == null)
             {
-                if(_credentials == null)
-                {
-                    client = new AmazonSecretsManagerClient();
-                }
-                else
-                {
-                    client = new AmazonSecretsManagerClient(_credentials);
-                }
-
+                client = _credentials == null
+                    ? new AmazonSecretsManagerClient()
+                    : new AmazonSecretsManagerClient(_credentials);
             }
             else
             {
-                if (_credentials == null)
-                {
-                    client = new AmazonSecretsManagerClient(_region);
-                }
-                else
-                {
-                    client = new AmazonSecretsManagerClient(_credentials, _region);
-                }
+                client = _credentials == null
+                    ? new AmazonSecretsManagerClient(_region)
+                    : new AmazonSecretsManagerClient(_credentials, _region);
             }               
 
             return new AmazonSecretsManagerConfigurationProvider(client, options);

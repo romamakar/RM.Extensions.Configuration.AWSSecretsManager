@@ -12,7 +12,7 @@ namespace RM.Extensions.Configuration.AWSSecretsManager.Models
     public class AmazonSecretsManagerConfigurationProvider : ConfigurationProvider, IDisposable
     {
         private readonly IAmazonSecretsManager _client;
-        private readonly SecretsManagerOptions _options;
+        private readonly SecretsManagerOptions _options;        
         private Timer _timer;
 
         public AmazonSecretsManagerConfigurationProvider(IAmazonSecretsManager client, SecretsManagerOptions options)
