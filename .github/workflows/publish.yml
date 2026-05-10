@@ -17,30 +17,27 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x'
-        source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
-        owner: ${{ github.repository_owner }}
-        credentials: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Extract version from tag
       id: get_version
-      run: |
-        echo "TAG_VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+      run: echo "TAG_VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
 
-    - name: Restore
+    - name: Restore dependencies
       run: dotnet restore
 
     - name: Build
       run: dotnet build -c Release --no-restore
 
-    - name: Pack with version from tag
+    - name: Pack NuGet package
       run: dotnet pack -c Release --no-build -o out /p:Version=${TAG_VERSION}
 
     # - name: Publish to NuGet.org
     #   run: dotnet nuget push "out/*.nupkg" \
-    #         --api-key ${{ secrets.NUGET_API_KEY }} \
-    #         --source https://api.nuget.org/v3/index.json
+    #        --api-key ${{ secrets.NUGET_API_KEY }} \
+    #        --source https://api.nuget.org/v3/index.json
 
     - name: Publish to GitHub Packages
+      env:
+        NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: dotnet nuget push "out/*.nupkg" \
-            --api-key ${{ secrets.GITHUB_TOKEN }} \
-            --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+           --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
