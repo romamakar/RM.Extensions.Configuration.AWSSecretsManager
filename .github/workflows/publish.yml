@@ -39,12 +39,12 @@ jobs:
     - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ env.VER }}
-          name: Release v${{ env.VER }}
+          tag_name: v${{ TAG_VERSION }}
+          name: Release v${{ TAG_VERSION }}
           files: out/*.nupkg
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+
     #- name: Publish to GitHub Packages
     #  env:
     #    NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
