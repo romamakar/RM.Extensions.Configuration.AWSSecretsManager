@@ -36,7 +36,16 @@ jobs:
     #        --api-key ${{ secrets.NUGET_API_KEY }} \
     #        --source https://api.nuget.org/v3/index.json
 
-    - name: Publish to GitHub Packages
-      env:
-        NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: dotnet nuget push "out/*.nupkg" --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
+    - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ env.VER }}
+          name: Release v${{ env.VER }}
+          files: out/*.nupkg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+    #- name: Publish to GitHub Packages
+    #  env:
+    #    NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #  run: dotnet nuget push "out/*.nupkg" --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
