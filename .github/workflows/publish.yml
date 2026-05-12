@@ -4,8 +4,8 @@ on:
   push:
     tags:
       - 'v*'   # запускається коли пушиш тег, наприклад v1.2.3
-    workflow_dispatch:
-    
+  workflow_dispatch:
+
 jobs:
   publish:
     runs-on: ubuntu-latest
