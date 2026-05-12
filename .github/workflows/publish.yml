@@ -37,12 +37,12 @@ jobs:
     #        --source https://api.nuget.org/v3/index.json
 
     - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
+      uses: softprops/action-gh-release@v2
+      with:
           tag_name: v${{ TAG_VERSION }}
           name: Release v${{ TAG_VERSION }}
           files: out/*.nupkg
-        env:
+      env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     #- name: Publish to GitHub Packages
