@@ -1,5 +1,6 @@
-# Extensions.Configuration.AWSSecretsManager
-![Publish](https://github.com/romamakar/RM.Extensions.Configuration.AWSSecretsManager/actions/workflows/publish.yml/badge.svg)
+# RM.Extensions.Configuration.AWSSecretsManager
+![Publish](https://github.com/romamakar/RM.Extensions.Configuration.AWSSecretsManager/actions/workflows/publish.yml/badge.svg?branch=v1.0.4)
+
 This project provides an extension for integrating AWS Secrets Manager with the .NET configuration system. It allows you to load secrets from AWS Secrets Manager and use them as configuration values in your application.
 Usage:
 
