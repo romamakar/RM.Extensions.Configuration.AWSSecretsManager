@@ -29,8 +29,11 @@ jobs:
     - name: Build
       run: dotnet build -c Release --no-restore
 
+    - name: Run unit tests
+      run: dotnet test UnitTests/UnitTests.csproj -c Release --no-build
+
     - name: Pack NuGet package
-      run: dotnet pack -c Release --no-build -o out /p:Version=${TAG_VERSION}
+      run: dotnet pack RM.Extensions.Configuration.AWSSecretsManager\RM.Extensions.Configuration.AWSSecretsManager.csproj -c Release --no-build -o out /p:Version=${TAG_VERSION}
 
     # - name: Publish to NuGet.org
     #   run: dotnet nuget push "out/*.nupkg" \
